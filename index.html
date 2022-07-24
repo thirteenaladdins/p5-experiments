@@ -2,8 +2,44 @@
 <html>
   <head>
     <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script> -->
-    <script src="p5.min.js"></script>
-    <script src="sketch5.js"></script>
+
+    <canvas width="600" height="600"></canvas>
+    <script>
+      let canvas = document.querySelector("canvas");
+      let context = canvas.getContext("2d");
+
+      context.fillStyle = "blue";
+      context.lineWidth = 4;
+      // context.rect(100, 100, 400, 400);
+      // context.stroke();
+      // context.beginPath();
+      // context.arc(300, 300, 100, 0, Math.PI * 2);
+      // context.stroke();
+      const width = 60;
+      const height = 60;
+      const gap = 20;
+
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          let x = 100 + (width + gap) * i;
+          let y = 100 + (height + gap) * j;
+
+          context.beginPath();
+          context.rect(x, y, width, height);
+          context.stroke();
+
+          if (Math.random() > 0.5) {
+            context.beginPath();
+            context.rect(x + 8, y + 8, width - 16, height - 16);
+            context.stroke();
+          }
+          // if (i > 0 && i < 4) {
+        }
+      }
+      // }
+    </script>
+    <!-- <script src="p5.min.js"></script> -->
+    <!-- <script src="sketch5.js"></script> -->
   </head>
   <body>
     <main></main>
