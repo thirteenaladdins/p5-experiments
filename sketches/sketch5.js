@@ -30,7 +30,7 @@ function setup() {
   // cols = (w - margin * 2) / scl;
   // rows = (h - margin * 2) / scl;
   angleMode(DEGREES);
-  frameRate(5);
+  frameRate(24);
   for (i = 0; i < 20; i++) {
     numberArray.push(i + 1);
   }
