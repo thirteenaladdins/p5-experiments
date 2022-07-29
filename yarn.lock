@@ -4325,6 +4325,11 @@ tty-browserify@0.0.1:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.1.tgz#3f05251ee17904dfd0677546670db9651682b811"
   integrity sha512-C3TaO7K81YvjCgQH9Q1S3R3P3BtN3RIM8n+OvX4il1K1zgE8ZhI0op7kClgkxtutIE8hQrcrHBXvIheqKUUCxw==
 
+tweakpane@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-3.1.0.tgz#3ecaecf09c6234e27d0d8f101e16128b65fecc86"
+  integrity sha512-PGAp/LPQdHwzL7/iAW4lV1p9iPQTti7YMjMWO48CoYjvZRS59RmgQnhEGzKzqST1JnmOYmQUjTe8bdhlZRJs5A==
+
 type-check@~0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
