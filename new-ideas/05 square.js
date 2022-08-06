@@ -18,7 +18,7 @@ function drawLine(point1, point2) {
 }
 
 // function to draw the cube
-function drawCube() {}
+// function drawCube() {}
 
 const margin = 10;
 const cols = 10;
@@ -105,30 +105,8 @@ const sketch = () => {
     // context.lineTo(0, height);
     // context.lineWidth = 4;
 
-    function drawFace(context, x, y, w, h) {
-      // context.setTransform(1, 0, 0, 1, posX, posY);
-      // context.rotate(180);
-      // context.scale(scale, scale);
-      context.strokeStyle = "white";
-      context.moveTo(x, y);
-      context.lineTo(x, y + h);
-
-      // context.closePath();
-      // top side
-      context.moveTo(x, y);
-      context.lineTo(x + w, y);
-
-      // right side
-      context.moveTo(x + w, y);
-      context.lineTo(x + w, y + h);
-
-      // bottom side
-      context.moveTo(x, y + h);
-      context.lineTo(x + w, y + h);
-      context.stroke();
-    }
-
-    function drawCube(x, y, wx, wy, h) {
+    // pre-calculate all the points?
+    function drawCube(context, x, y, wx, wy, h) {
       // left face
       context.beginPath();
       context.moveTo(x, y);
@@ -138,6 +116,7 @@ const sketch = () => {
       context.closePath();
       context.fillStyle = "#838357";
       context.strokeStyle = "#7a7a51";
+      context.miterLimit = 1;
       context.stroke();
       context.fill();
 
@@ -150,6 +129,7 @@ const sketch = () => {
       context.closePath();
       context.fillStyle = "#6f6f49";
       context.strokeStyle = "#676744";
+      context.miterLimit = 1;
       context.stroke();
       context.fill();
 
@@ -162,113 +142,47 @@ const sketch = () => {
       context.closePath();
       context.fillStyle = "#989865";
       context.strokeStyle = "#8e8e5e";
+      context.miterLimit = 1;
       context.stroke();
       context.fill();
     }
 
-    // drawFace(context, x, y, w, h);
+    var sizeX = 40;
+    var sizeY = 40;
+    var sizeZ = 40;
 
-    var sizeX = 32;
-    var sizeY = 32;
-    var sizeZ = 8;
-    drawCube(context, 100, 100, sizeX, sizeY, sizeZ);
+    // drawCube(context, 300, 300, sizeX, sizeY, sizeZ);
 
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         // to centre it perfectly I need to calculate the width of the grid
 
         // calculate the width of the grid
-        // grid_width = cols * w + (cols - 1) * gap;
-        // grid_height = rows * h + (rows - 1) * gap;
         let grid_width = cols * w + (cols - 1) * gap;
         let grid_height = rows * h + (rows - 1) * gap;
-        // console.log(width - grid_width);
 
         // use these values to centre the grid
         let xOffset = (width - grid_width) / 2;
         let yOffset = (height - grid_height) / 2;
-        console.log("offsets", xOffset, yOffset);
+        // console.log("offsets", xOffset, yOffset);
 
         // the first point of the square
+        // cube - need to offset the x + y values to start at the top right of the previous cube
+
         let x = xOffset + (w + gap) * i;
         let y = yOffset + (h + gap) * j;
-        // context.fillStyle = "red";
-        // context.strokeStyle = "yellow";
-        // context.strokeRect(x, y, w, h);
 
-        // draw each face of the cube
-        // context.beginPath();
+        console.log(x, y);
         context.strokeStyle = STROKE_COLOUR;
 
-        const angle = 45;
-        const scale = 1;
-        const posY = x;
-        const posX = y;
+        // drawCube(context, x, y, w, h, 100);
+        drawCube(context, x, y, sizeX, sizeY, sizeZ);
 
-        // drawRect(context);
-        // drawFace(context, x, y, w, h);
-        // drawImageRot(context, 0, 0, 100, 100, 0);
-        // drawRectNonCentre();
-
-        // draw the front face
-        // context.save();
-        // drawFace(x, y, w, h);
-        // context.restore();
-
-        // where draw the top face, angled
-        // draw the back face
-        // rotate the object
-
-        // drawImageRot(context, x, y, w, h, 45);
-
-        // context.strokeRect(200, 40, 100, 100);
-
-        function drawRectNonCentre() {
-          context.fillStyle = "red";
-          context.fillRect(200, 40, 100, 100);
-        }
-
-        function drawRect(context) {
-          // context.setTransform(1, 0, 0, 1, posX, posY);
-          // context.rotate(180);
-          // context.scale(scale, scale);
-          context.strokeStyle = STROKE_COLOUR;
-          context.strokeRect(-50, -50, 100, 100);
-          context.stroke();
-        }
-
-        // draw front faces
-        // rotate faces into the z axis?
-
-        // rotate object
-        // function drawImageRot(ctx, x, y, width, height, deg) {
-        //   // Store the current context state (i.e. rotation, translation etc..)
-        //   ctx.save();
-
-        //   //Convert degrees to radian
-        //   var rad = (deg * Math.PI) / 180;
-
-        //   //Set the origin to the center of the image
-        //   ctx.translate(x + width / 2, y + height / 2);
-
-        //   //Rotate the canvas around the origin
-        //   ctx.rotate(rad);
-
-        //   //draw the image
-        //   // ctx.drawImage(
-        //   //   img,
-        //   //   (width / 2) * -1,
-        //   //   (height / 2) * -1,
-        //   //   width,
-        //   //   height
-        //   // );
-
-        //   // Restore canvas state as saved from above
-        //   ctx.restore();
-        // }
-
-        // Restore canvas state as saved from above
-        // context.restore();
+        // context.beginPath();
+        // context.moveTo(x, y);
+        // context.lineTo(x, width);
+        // context.strokeStyle = "red";
+        // context.stroke();
 
         // return [
         //   // Export PNG as first layer
@@ -287,5 +201,28 @@ const sketch = () => {
     }
   };
 };
+
+function drawFace(context, x, y, w, h) {
+  // context.setTransform(1, 0, 0, 1, posX, posY);
+  // context.rotate(180);
+  // context.scale(scale, scale);
+  context.strokeStyle = "white";
+  context.moveTo(x, y);
+  context.lineTo(x, y + h);
+
+  // context.closePath();
+  // top side
+  context.moveTo(x, y);
+  context.lineTo(x + w, y);
+
+  // right side
+  context.moveTo(x + w, y);
+  context.lineTo(x + w, y + h);
+
+  // bottom side
+  context.moveTo(x, y + h);
+  context.lineTo(x + w, y + h);
+  context.stroke();
+}
 
 canvasSketch(sketch, settings);
