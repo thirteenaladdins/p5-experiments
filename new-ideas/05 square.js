@@ -44,48 +44,12 @@ const POINT_3D = function (x, y, z) {
   this.z = z;
 };
 
-// accept the points
-// create a constructor to create a cube
-// function Cube(x, y, z) {
-//   this.x = x;
-//   this.y = y;
-//   this.z = z;
-// }
-
-// drawing cubes
-// plot all points for cube
-// drawing points - then drawing the lines to connect those points
-var vertices = [-0.5, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.5, 0.5, 0.0];
-
-// indices = [3, 2, 1, 3, 1, 0];
-
-// might be a 3d image?
-// figure out how to draw a cube
-
 const sketch = () => {
-  var vertices = [-0.5, 0.5, 0.0, 0.0, 0.5, 0.0, -0.25, 0.25, 0.0]; // x, y, z
-
   const BACKGROUND_COLOUR = "#2D2B2C";
   // const STROKE_COLOUR = "#A6A4A4";
   const STROKE_COLOUR = "#DED9D9";
 
   return ({ context, width, height }) => {
-    var vertCode =
-      "attribute vec3 coordinates;" +
-      "void main(void) {" +
-      " gl_Position = vec4(coordinates, 1.0);" +
-      "}";
-
-    var fragCode =
-      "void main(void) {" + " gl_FragColor = vec4(0.5, 0.3, 0.0, 7.5);" + "}";
-
-    // context.drawElements(
-    //   context.TRIANGLES,
-    //   context.length,
-    //   context.UNSIGNED_SHORT,
-    //   0
-    // );
-
     const w = (width - 400) / cols;
     const h = (height - 400) / rows;
 
@@ -105,17 +69,22 @@ const sketch = () => {
     // context.lineTo(0, height);
     // context.lineWidth = 4;
 
+    // we start with a set of points
+
     // pre-calculate all the points?
     function drawCube(context, x, y, wx, wy, h) {
       // left face
       context.beginPath();
+
       context.moveTo(x, y);
-      context.lineTo(x - wx, y - wx * 0.5);
-      context.lineTo(x - wx, y - h - wx * 0.5);
+      // X 0.5 determines the angle
+      context.lineTo(x + wx, y + wy);
+      context.lineTo(x - wx, y - wy);
+      context.lineTo(x - wx, y - h - wx);
       context.lineTo(x, y - h * 1);
       context.closePath();
       context.fillStyle = "#838357";
-      context.strokeStyle = "#7a7a51";
+      context.strokeStyle = STROKE_COLOUR;
       context.miterLimit = 1;
       context.stroke();
       context.fill();
@@ -123,7 +92,11 @@ const sketch = () => {
       // right face
       context.beginPath();
       context.moveTo(x, y);
+      // starting here - area of triangle - 0.5 * base * height
+      //
+
       context.lineTo(x + wy, y - wy * 0.5);
+      context.lineTo(x + wy, y - wy);
       context.lineTo(x + wy, y - h - wy * 0.5);
       context.lineTo(x, y - h * 1);
       context.closePath();
@@ -135,10 +108,16 @@ const sketch = () => {
 
       // center face
       context.beginPath();
-      context.moveTo(x, y - h);
-      context.lineTo(x - wx, y - h - wx * 0.5);
-      context.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5));
-      context.lineTo(x + wy, y - h - wy * 0.5);
+      // context.moveTo(x, y - h);
+      // context.lineTo(x - wx, y - h - wx * 0.5);
+      // context.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5));
+      // context.lineTo(x + wy, y - h - wy * 0.5);
+      // context.lineTo(x, y - h * 1);
+
+      // context.lineTo(x + wx, y + wy);
+      // context.lineTo(x - wx, y - wy);
+      // context.lineTo(x - wx, y - h - wx);
+
       context.closePath();
       context.fillStyle = "#989865";
       context.strokeStyle = "#8e8e5e";
@@ -176,6 +155,9 @@ const sketch = () => {
         context.strokeStyle = STROKE_COLOUR;
 
         // drawCube(context, x, y, w, h, 100);
+        // let pointA = x - sizeX;
+        // let pointB = (y - sizeY) * j;
+
         drawCube(context, x, y, sizeX, sizeY, sizeZ);
 
         // context.beginPath();
