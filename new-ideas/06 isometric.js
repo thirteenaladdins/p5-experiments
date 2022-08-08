@@ -14,6 +14,7 @@ const cubes = [];
 // };
 
 //@TODO centre the cubes
+// don't go off the edge of the screen
 
 const settings = {
   // Pass the p5 instance, and preload function if necessary
@@ -65,6 +66,8 @@ class Cube {
     this.blue = random(255);
   }
 
+  // position of the top left corner of the cube
+  // isometric position of the cubes. Starting with the top left corner
   draw() {
     const x = gridTopX + ((this.c - this.r) * sideLength * sqrt(3)) / 2;
     const y =
@@ -119,9 +122,13 @@ class Cube {
   }
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 canvasSketch(({ p5 }) => {
   // Inside this is a bit like p5.js 'setup' function
-  createCanvas(1080, 1080);
+  // createCanvas(760, 760);
   gridTopX = width / 2;
   gridTopY = height / 2;
 
@@ -143,12 +150,13 @@ canvasSketch(({ p5 }) => {
   // let anim = 0.5;
 
   // Here is how to attach interactivity to a sketch
-  p5.mouseMoved = () => {
-    anim = p5.mouseX / p5.width;
+  mouseMoved = () => {
+    anim = mouseX / width;
   };
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({}) => {
+    windowResized();
     background(120);
 
     for (const cube of cubes) {
