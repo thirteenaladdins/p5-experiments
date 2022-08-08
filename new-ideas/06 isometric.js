@@ -9,16 +9,21 @@ const sideLength = 50;
 
 const cubes = [];
 
-const preload = (p5) => {
-  // You can use p5.loadImage() here, etc...
-};
+// const preload = (p5) => {
+//   // You can use p5.loadImage() here, etc...
+// };
+
+//@TODO centre the cubes
 
 const settings = {
   // Pass the p5 instance, and preload function if necessary
-  p5: { p5, preload },
+  // p5: { p5, preload },
+  p5: true,
   // Turn on a render loop
-  animate: true,
+  // animate: true,
 };
+
+function keyPressed() {}
 
 function addRandomCube() {
   let cubeAdded = false;
@@ -114,12 +119,13 @@ class Cube {
   }
 }
 
-canvasSketch(({ p5, width, height }) => {
+canvasSketch(({ p5 }) => {
   // Inside this is a bit like p5.js 'setup' function
-
+  createCanvas(1080, 1080);
   gridTopX = width / 2;
   gridTopY = height / 2;
 
+  console.log(gridTopX, gridTopY);
   strokeWeight(2);
 
   cubes.push(new Cube(0, 0, 0));
@@ -143,7 +149,6 @@ canvasSketch(({ p5, width, height }) => {
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({}) => {
-    createCanvas(1080, 1080);
     background(120);
 
     for (const cube of cubes) {
