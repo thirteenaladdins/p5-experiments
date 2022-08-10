@@ -100,7 +100,7 @@ class Cube {
   // we take the side length to calculate all the other sides
 
   draw() {
-    let sideLength = random(20, 50);
+    let sideLength = random(30, 50);
     // this is how we calculate each of the points
     const x = gridTopX + ((this.c - this.r) * sideLength * sqrt(3)) / 2;
     const y =
