@@ -1,5 +1,6 @@
 const canvasSketch = require("canvas-sketch");
 const p5 = require("p5");
+const { isContext } = require("vm");
 
 new p5();
 
@@ -100,7 +101,7 @@ class Cube {
   // we take the side length to calculate all the other sides
 
   draw() {
-    let sideLength = random(20, 50);
+    let sideLength = 50;
     // this is how we calculate each of the points
     const x = gridTopX + ((this.c - this.r) * sideLength * sqrt(3)) / 2;
     const y =
@@ -108,7 +109,7 @@ class Cube {
 
     const points = [];
     for (let angle = PI / 6; angle < PI * 2; angle += PI / 3) {
-      console.log(angle);
+      // console.log(angle);
       // so we're using trigonomerty to calculate the points
       // using the angles here
       points.push(
@@ -151,6 +152,8 @@ class Cube {
     // this takes the same colour and changes it for shading
     // create a 3d effect
     fill(this.red, this.green, this.blue);
+    // these points are for the top squares, rendered at the correct angle
+    // for the perspective grid
     quad(
       x,
       y,
@@ -172,25 +175,50 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
+// i can draw the grid myself
+// I don't need a tutorial. i have the guide here
+// all I need is to turn it into code
+
+// function drawGrid(x, y) {
+//   const IsoW = 2;
+//   const IsoH = 1;
+
+//   const IsoX = 100;
+//   const IsoY = 100;
+
+//   // let i = 2;
+//   // let j = 1;
+
+//   sideLength = 50;
+
+//   // calculate these points based on the screen size
+//   let localX = 2;
+//   let localY = 1;
+
+//   let angle = PI / 6;
+
+//   let pointX = GlobalX + cos(angle) * sideLength;
+//   let pointY = GlobalY + sin(angle) * sideLength;
+
+//   line(GlobalX, GlobalY, pointX, pointY);
+// }
+
 canvasSketch(({ p5 }) => {
   // Inside this is a bit like p5.js 'setup' function
   // createCanvas(760, 760);
   gridTopX = width / 2;
   gridTopY = height / 2;
 
-  // add the cubes to the center of the page
-  console.log(gridTopX, gridTopY);
+  // strokeWeight(3);
+  strokeCap(ROUND);
+  // stroke(252, 231, 230);
 
-  // this determines the thickness of the edges -
-  // it's simply a normal 2D drawing with a 3D effect
-  // all 2D attributes still apply
-  strokeWeight(2);
-  stroke(252, 231, 230);
   cubes.push(new Cube(0, 0, 0));
 
   // this deteremines how many cubes are added to the frame
+  // line(30, 20, 500, 500);
 
-  while (cubes.length < 250) {
+  while (cubes.length < 50) {
     addRandomCube();
   }
 
@@ -207,16 +235,144 @@ canvasSketch(({ p5 }) => {
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({}) => {
-    windowResized();
+    // windowResized();
     background(252, 231, 230);
 
-    for (const cube of cubes) {
-      cube.draw();
+    // for (const cube of cubes) {
+    //   cube.draw();
+    // }
+
+    // this deteremines the slant of the iso grid
+    // why?
+    // width... height... 2, 1. I don't understand why
+
+    let i = 2;
+    let j = 1;
+
+    sideLength = 50;
+
+    // const x = gridTopX + ((c - r) * sideLength * sqrt(3)) / 2;
+    // const y = gridTopY + ((c + r) * sideLength) / 2 - sideLength * z;
+
+    // CREATING A VECTOR
+    // plot the other points here
+    // I have made this whole function too complex
+
+    function gridSquarePoint(GlobalX, GlobalY) {
+      let count = 0;
+      let gridPoints = [];
+      // this is basically the offset here
+
+      for (let angle = PI / 6; angle < PI * 2; angle += PI / 3) {
+        // console.log(angle);
+        // so we're using trigonomerty to calculate the points
+        // using the angles here
+        gridPoints.push(
+          createVector(
+            GlobalX + cos(angle) * sideLength,
+            GlobalY + sin(angle) * sideLength
+          )
+        );
+        // enumerate the points
+        // let pointX = gridPoints[count].x;
+        // let pointY = gridPoints[count].y;
+
+        count++;
+      }
+      // return [GlobalX, GlobalY, gridPoints];
+      return gridPoints;
     }
-    // Draw with p5.js things
-    // p5.background(0);
-    // p5.fill(255);
-    // p5.noStroke();
-    // p5.rect(0, 0, width * anim, height);
+
+    // we can draw a quad here, the diagonal square.
+    // I want to draw it without the colour
+
+    const IsoX = width / 2;
+    const IsoY = 200;
+
+    const IsoW = 2;
+    const IsoH = 1;
+
+    let GlobalX;
+    let GlobalY;
+    let gridPoints;
+
+    // gridPoints = gridSquarePoint(100, 100);
+    // drawGridSquare(100, 100, gridPoints);
+
+    // I'm doing something wrong.
+
+    const gap = 23.5;
+    // draw grid
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        // how do we place the squares next to each other?
+        GlobalX = IsoX + (i - j) * IsoW * gap;
+        GlobalY = IsoY + (i + j) * IsoH * gap;
+        gridPoints = gridSquarePoint(GlobalX, GlobalY);
+
+        drawGridSquare(GlobalX, GlobalY, gridPoints);
+      }
+    }
+
+    function drawGridSquare(x, y, gridPoints) {
+      // console.log(gridPoints);
+      quad(
+        x,
+        y,
+        gridPoints[3].x,
+        gridPoints[3].y,
+        gridPoints[4].x,
+        gridPoints[4].y,
+        gridPoints[5].x,
+        gridPoints[5].y
+      );
+    }
+
+    // console.log(gridPoints);
+    // const pointA - calculate the first point?
+
+    // I sort of get what's happening here but I don't really understand the trig stuff
+    // lets do some exercises
+
+    // that other thing was for drawing each point of the cube
+    // here we are just the simple top squares
+
+    // 30 degrees
+    // let pointX = GlobalX + cos(angle) * sideLength;
+    // let pointY = GlobalY + sin(angle) * sideLength;
+
+    // so starting at GlobalX and globalY
+
+    // 330 degrees
+    // let pointX2 = GlobalX - cos(angle) * sideLength;
+    // let pointY2 = GlobalY - sin(angle) * sideLength;
+
+    // drawGrid(mouseX, mouseY);
+    // calculate the other points
+
+    // console.log(x, y);
+
+    // let LocalX = ((GlobalY - IsoY) / IsoH + (GlobalX - IsoX) / IsoW) / 2;
+    // let LocalY = ((GlobalY - IsoY) / IsoH - (GlobalX - IsoX) / IsoW) / 2;
+
+    // createVector(x + cos(angle) * sideLength, y + sin(angle) * sideLength);
+
+    // first line
+
+    // second line
+    // line(GlobalX, GlobalY, pointX2, pointY2);
+    // third line
+
+    // for (let i = 0; i < 10; i++) {
+    //   for (let j = 0; j < 10; j++) {
+
+    // }
+    // }
+
+    // start point of x,y = 0, 0 for example. this is the top left corner
+    // the line is sidelength long...
+    // the cubes are 50 so the lines are 50 long.
+    // take the global X which is
+    // isoX and isoY are the start points of our grid
   };
 }, settings);
