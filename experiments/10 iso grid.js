@@ -95,14 +95,10 @@ class Cube {
     this.blue = random(194, 188, 188);
   }
 
-  // position of the top left corner of the cube
-  // isometric projection of the cubes.
-
-  // we take the side length to calculate all the other sides
-
   draw() {
     let sideLength = 50;
     // this is how we calculate each of the points
+    // this is the conversion that we looking at on the tutorial
     const x = gridTopX + ((this.c - this.r) * sideLength * sqrt(3)) / 2;
     const y =
       gridTopY + ((this.c + this.r) * sideLength) / 2 - sideLength * this.z;
@@ -287,7 +283,8 @@ canvasSketch(({ p5 }) => {
     // I want to draw it without the colour
 
     const IsoX = width / 2;
-    const IsoY = 200;
+    console.log(IsoX);
+    const IsoY = 100;
 
     const IsoW = 2;
     const IsoH = 1;
@@ -298,21 +295,6 @@ canvasSketch(({ p5 }) => {
 
     // gridPoints = gridSquarePoint(100, 100);
     // drawGridSquare(100, 100, gridPoints);
-
-    // I'm doing something wrong.
-
-    const gap = 23.5;
-    // draw grid
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        // how do we place the squares next to each other?
-        GlobalX = IsoX + (i - j) * IsoW * gap;
-        GlobalY = IsoY + (i + j) * IsoH * gap;
-        gridPoints = gridSquarePoint(GlobalX, GlobalY);
-
-        drawGridSquare(GlobalX, GlobalY, gridPoints);
-      }
-    }
 
     function drawGridSquare(x, y, gridPoints) {
       // console.log(gridPoints);
@@ -328,8 +310,26 @@ canvasSketch(({ p5 }) => {
       );
     }
 
-    // console.log(gridPoints);
-    // const pointA - calculate the first point?
+    // draw three grids
+    function drawIsoGrid(IsoX, IsoY) {
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          // mate copilot has saved me a couple of times, this being one of them.
+          GlobalX = IsoX + ((i - j) * sideLength * sqrt(3)) / 2;
+          // GlobalX = IsoX + (i - j) * IsoW;
+          GlobalY = IsoY + ((i + j) * sideLength) / 2;
+          // GlobalY = IsoY + (i + j) * IsoH;
+          gridPoints = gridSquarePoint(GlobalX, GlobalY);
+
+          drawGridSquare(GlobalX, GlobalY, gridPoints);
+        }
+      }
+    }
+
+    //
+    for (let i = 4; i > 1; i--) {
+      drawIsoGrid(width / 2, i * 90);
+    }
 
     // I sort of get what's happening here but I don't really understand the trig stuff
     // lets do some exercises
@@ -354,25 +354,5 @@ canvasSketch(({ p5 }) => {
 
     // let LocalX = ((GlobalY - IsoY) / IsoH + (GlobalX - IsoX) / IsoW) / 2;
     // let LocalY = ((GlobalY - IsoY) / IsoH - (GlobalX - IsoX) / IsoW) / 2;
-
-    // createVector(x + cos(angle) * sideLength, y + sin(angle) * sideLength);
-
-    // first line
-
-    // second line
-    // line(GlobalX, GlobalY, pointX2, pointY2);
-    // third line
-
-    // for (let i = 0; i < 10; i++) {
-    //   for (let j = 0; j < 10; j++) {
-
-    // }
-    // }
-
-    // start point of x,y = 0, 0 for example. this is the top left corner
-    // the line is sidelength long...
-    // the cubes are 50 so the lines are 50 long.
-    // take the global X which is
-    // isoX and isoY are the start points of our grid
   };
 }, settings);
