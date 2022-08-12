@@ -254,24 +254,18 @@ canvasSketch(({ p5 }) => {
     // plot the other points here
     // I have made this whole function too complex
 
-    function gridSquarePoint(GlobalX, GlobalY) {
+    function gridSquarePoint(GlobalX, GlobalY, sideLength, i, j) {
       let count = 0;
       let gridPoints = [];
       // this is basically the offset here
 
       for (let angle = PI / 6; angle < PI * 2; angle += PI / 3) {
-        // console.log(angle);
-        // so we're using trigonomerty to calculate the points
-        // using the angles here
         gridPoints.push(
           createVector(
             GlobalX + cos(angle) * sideLength,
             GlobalY + sin(angle) * sideLength
           )
         );
-        // enumerate the points
-        // let pointX = gridPoints[count].x;
-        // let pointY = gridPoints[count].y;
 
         count++;
       }
@@ -311,46 +305,35 @@ canvasSketch(({ p5 }) => {
     }
 
     // draw three grids
-    function drawIsoGrid(IsoX, IsoY) {
+    function drawIsoTile(IsoX, IsoY) {
       for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
           // mate copilot has saved me a couple of times, this being one of them.
+          // GlobalX = IsoX + ((i - j) * sideLength * sqrt(3)) / 2;
           GlobalX = IsoX + ((i - j) * sideLength * sqrt(3)) / 2;
           // GlobalX = IsoX + (i - j) * IsoW;
           GlobalY = IsoY + ((i + j) * sideLength) / 2;
           // GlobalY = IsoY + (i + j) * IsoH;
-          gridPoints = gridSquarePoint(GlobalX, GlobalY);
+          gridPoints = gridSquarePoint(GlobalX, GlobalY, sideLength);
 
           drawGridSquare(GlobalX, GlobalY, gridPoints);
         }
       }
     }
 
-    //
-    for (let i = 4; i > 1; i--) {
-      drawIsoGrid(width / 2, i * 90);
+    // draw tiles within tiles
+
+    // draw three grids
+    // #TODO
+    for (let i = 3; i > 0; i--) {
+      drawIsoTile(width / 2, i * 100 + -20);
     }
 
-    // I sort of get what's happening here but I don't really understand the trig stuff
-    // lets do some exercises
-
-    // that other thing was for drawing each point of the cube
-    // here we are just the simple top squares
+    // helper function for drawing iso grid?
 
     // 30 degrees
     // let pointX = GlobalX + cos(angle) * sideLength;
     // let pointY = GlobalY + sin(angle) * sideLength;
-
-    // so starting at GlobalX and globalY
-
-    // 330 degrees
-    // let pointX2 = GlobalX - cos(angle) * sideLength;
-    // let pointY2 = GlobalY - sin(angle) * sideLength;
-
-    // drawGrid(mouseX, mouseY);
-    // calculate the other points
-
-    // console.log(x, y);
 
     // let LocalX = ((GlobalY - IsoY) / IsoH + (GlobalX - IsoX) / IsoW) / 2;
     // let LocalY = ((GlobalY - IsoY) / IsoH - (GlobalX - IsoX) / IsoW) / 2;
