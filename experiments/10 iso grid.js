@@ -1,6 +1,5 @@
 const canvasSketch = require("canvas-sketch");
 const p5 = require("p5");
-const { isContext } = require("vm");
 
 new p5();
 
@@ -224,7 +223,7 @@ canvasSketch(({ p5 }) => {
   });
   // let anim = 0.5;
 
-  // Here is how to attach interactivity to a sketch
+  // Here is how to add interactivity to a sketch
   mouseMoved = () => {
     anim = mouseX / width;
   };
