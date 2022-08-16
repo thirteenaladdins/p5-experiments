@@ -1,4 +1,5 @@
 const canvasSketch = require("canvas-sketch");
+const math = require("canvas-sketch-util/math");
 const p5 = require("p5");
 
 new p5();
@@ -88,14 +89,6 @@ function defineGrid(gridWidth, gridHeight, sideLength, gap = 1) {
 function drawSketches(gridCoordinates) {
   //   console.log(gridCoordinates);
   for (const coordinates of gridCoordinates) {
-    //   console.log(coordinates);
-    //   let x = coordinates[0];
-    //   let y = coordinates[1];
-    //   let sideLength = coordinates[2];
-    //   let sideLength = coordinates[3];
-    //   console.log(x, y, sideLength);
-    //   drawSketch(x, y, sideLength);
-    //   drawSketch(coordinates[0], coordinates[1], coordinates[2]);
     drawSketch(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
   }
 }
@@ -104,14 +97,49 @@ function drawSketches(gridCoordinates) {
 function drawSquiggles() {}
 
 // accept coordinates and draw a sketch within those limits
-function drawCircle() {
-  //   fill(252, 231, 230);
-  ellipse(100, 100, 50, 50);
+function drawCircleWithArcs(coordinates, circleSize, sideLength) {
+  const num = 12;
+  arc(50, 55, 50, 50, 0, HALF_PI);
+  noFill();
+  const slice = math.degToRad(360 / num);
 
-  drawCircle(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+  for (let i = 0; i < num; i++) {
+    const angle = slice * i;
+  }
+
+  //   ellipse(
+  //     coordinates[0] + sideLength / 2,
+  //     coordinates[1] + sideLength / 2,
+  //     circleSize,
+  //     circleSize
+  //   );
 }
 
-// in here are the actual visuals we want to add to screen
+// accept coordinates and draw a sketch within those limits
+function drawCircle(coordinates, circleSize, sideLength) {
+  // here we need
+  // x, y, sideLength, sideLength
+
+  //   fill(252, 231, 230);
+  //   ellipse(100, 100, 50, 50);
+
+  // x, y,  then  x + 50, y  that's the second point
+  // x, y + 50 then x + 50, y + 50
+
+  // origin is width / 2 and height / 2
+  // centre the origin
+  //   draw from the centre
+  console.log(coordinates[0], coordinates[1]);
+
+  ellipse(
+    coordinates[0] + sideLength / 2,
+    coordinates[1] + sideLength / 2,
+    circleSize,
+    circleSize
+  );
+}
+
+// In here are the actual visuals we want to add to screen
 // what do I want to draw?
 function drawSketch() {}
 
@@ -120,18 +148,26 @@ canvasSketch(({ p5 }) => {
   // createCanvas(760, 760);
   gridTopX = width / 2;
   gridTopY = height / 2;
+  ellipseMode(CENTER);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({}) => {
     // windowResized();
     // background(252, 231, 230);
     let sideLength = 100;
+    let circleSize = 80;
     let gridWidth = 5;
     let gridHeight = 5;
-    drawGrid(gridWidth, gridHeight, sideLength, gap);
+    // drawGrid(gridWidth, gridHeight, sideLength, gap);
+
+    // define grid coordinates first
     let gridCoordinates = defineGrid(gridWidth, gridHeight, sideLength, gap);
 
     console.log(gridCoordinates);
-    drawCircle();
+    for (let i = 0; i < gridCoordinates.length; i++) {
+      drawCircle(gridCoordinates[i], circleSize, sideLength);
+    }
+
+    drawCircleWithArcs();
   };
 }, settings);
