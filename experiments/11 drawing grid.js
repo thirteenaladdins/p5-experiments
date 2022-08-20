@@ -85,6 +85,9 @@ function defineGrid(gridWidth, gridHeight, sideLength, gap = 1) {
   return gridCoordinates;
 }
 
+// make this whole thing adaptable - all parameters should be modifiable
+// from circle widths to grid size and side length etc.
+
 // draw sketches within each grid square
 function drawSketches(gridCoordinates) {
   //   console.log(gridCoordinates);
@@ -96,39 +99,47 @@ function drawSketches(gridCoordinates) {
 // draw squiggle
 function drawSquiggles() {}
 
-// accept coordinates and draw a sketch within those limits
+// draw a circle using arcs
 function drawCircleWithArcs(coordinates, circleSize, sideLength) {
   const num = 12;
-  arc(50, 55, 50, 50, 0, HALF_PI);
+  //   arc(50, 55, 50, 50, 0, HALF_PI);
   noFill();
-  const slice = math.degToRad(360 / num);
+  smooth();
+  //   strokeWeight(0.5);
+
+  let cx = sideLength * 0.2;
+  let cy = sideLength * 0.2;
+  const radius = sideLength * 0.3;
+
+  let x;
+  let y;
+
+  let slice = math.degToRad(360 / num);
+  //   what is cx and cy?
 
   for (let i = 0; i < num; i++) {
-    const angle = slice * i;
-  }
+    let angle = slice * i;
+    // I don't really get how this work
+    // basic mathematics
+    // x = cx + radius * sin(angle);
+    // y = cy + radius * cos(angle);
 
-  //   ellipse(
-  //     coordinates[0] + sideLength / 2,
-  //     coordinates[1] + sideLength / 2,
-  //     circleSize,
-  //     circleSize
-  //   );
+    // we've got these arcs now.
+    // not sure if we ever need sin and cos. come back to this later
+    arc(
+      coordinates[0] + sideLength / 2,
+      coordinates[1] + sideLength / 2,
+      circleSize,
+      circleSize,
+      0,
+      angle + slice
+    );
+    // arc(50, 55, 50, 50, 0, HALF_PI);
+  }
 }
 
 // accept coordinates and draw a sketch within those limits
 function drawCircle(coordinates, circleSize, sideLength) {
-  // here we need
-  // x, y, sideLength, sideLength
-
-  //   fill(252, 231, 230);
-  //   ellipse(100, 100, 50, 50);
-
-  // x, y,  then  x + 50, y  that's the second point
-  // x, y + 50 then x + 50, y + 50
-
-  // origin is width / 2 and height / 2
-  // centre the origin
-  //   draw from the centre
   console.log(coordinates[0], coordinates[1]);
 
   ellipse(
@@ -154,8 +165,8 @@ canvasSketch(({ p5 }) => {
   return ({}) => {
     // windowResized();
     // background(252, 231, 230);
-    let sideLength = 100;
-    let circleSize = 80;
+    let sideLength = 135;
+    let circleSize = 120;
     let gridWidth = 5;
     let gridHeight = 5;
     // drawGrid(gridWidth, gridHeight, sideLength, gap);
@@ -165,9 +176,8 @@ canvasSketch(({ p5 }) => {
 
     console.log(gridCoordinates);
     for (let i = 0; i < gridCoordinates.length; i++) {
-      drawCircle(gridCoordinates[i], circleSize, sideLength);
+      //   drawCircle(gridCoordinates[i], circleSize, sideLength);
+      drawCircleWithArcs(gridCoordinates[i], circleSize, sideLength);
     }
-
-    drawCircleWithArcs();
   };
 }, settings);
