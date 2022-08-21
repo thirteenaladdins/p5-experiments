@@ -37,10 +37,9 @@ canvasSketch(({ p5 }) => {
       let angle = math.degToRad(360 / num) * i;
       let x = radius * sin(angle);
       let y = radius * cos(angle);
-      arc(x, y, radius, radius, 0, PI);
+      arc(x, y, radius, radius, 0, PI * 2);
     }
 
-    drawCircleWithLines(radius);
     noLoop();
   };
 }, settings);
