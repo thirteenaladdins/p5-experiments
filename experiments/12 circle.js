@@ -158,8 +158,9 @@ function drawSketch() {}
 // radius
 // 2√r2 - d2
 
-function drawCircleWithLines(radius) {
-  let num = 30;
+function drawSquareLines(radius) {
+  // take the radius 
+  
   // for (let i = 0; i < num; i++) {
   //   let angle = math.degToRad(360 / num) * i;
   //   let x = diameter * sin(angle);
@@ -168,12 +169,17 @@ function drawCircleWithLines(radius) {
 
   //   line(0, 0, x, y);
   // }
+  
+  
+  let num = 30;
+  
 
   let chord;
   let x = 0;
   let y = 0;
+  let sideLength = radius * 2;
 
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < sideLength; i += 1) {
     // for (let j = 0; j < 10; j += 1) {
     // the first point on the circle - where the line starts
     // then the chord is the line between the two points
@@ -181,12 +187,22 @@ function drawCircleWithLines(radius) {
     // square root of radius squared - d squared
 
     // this is the length of the chord here
-    chord = 2 * sqrt(Math.pow(radius, 2) - Math.pow(radius - i, 2));
-    console.log(chord);
-
+    // chord = 2 * sqrt(Math.pow(radius, 2) - Math.pow(radius - i, 2));
+    // e.log(chord);
+	let x1 = 0;
+	let y1 = 0;
+	
+	let x2 = sideLength;
+	let y2 = 0;
+	
+	
     // start from center of the circle?
-    line(x + i, y + i, x + chord, y);
-    // line(0, 0, diameter, 0);
+    //ne(x + i, y + i, x + chord, y);
+    //line(x1 + i, y1 + i, i + sideLength, y);
+	
+	line(x1, y1 + i, x2, y2 + i)
+	
+	arc(x1, x2, radius, radius, PI * 2)
     // }
   }
 }
@@ -233,10 +249,13 @@ canvasSketch(({ p5 }) => {
 
     let num = 120;
 
-    let diameter = 200;
+    let radius = 100;
     smooth();
     strokeWeight(1);
-    drawCircleWithLines(diameter);
+    drawSquareLines(radius);
+	
+	
+	
     noLoop();
   };
 }, settings);
