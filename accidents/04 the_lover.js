@@ -58,25 +58,44 @@ const sketch = (context) => {
 
     strokeWeight(2.5);
 
+    // const path = createPath((context) => {
+    //   // Circle in centre of page
+    //   context.arc(width / 2, height / 2, 25, 0, Math.PI * 2);
+    // });
+
+    // Get a SVG string of the path
+    // const svg = path.toString();
+
     for (let i = 0; i < num; i++) {
       let angle = math.degToRad(360 / num) * i;
-      let x = radius * sin(angle);
-      let y = radius * cos(angle);
+      let x1 = radius * sin(angle);
+      let y1 = radius * cos(angle);
 
-      arc(x, y, radius, radius, 0, PI);
+      // calculate end point of the arc
+
+      // let x_end = X_Center + radius * cos(End_Angle);
+      // let y_end = Y_Center + radius * sin(End_Angle);
+
+      // create path arc is different to the p5.js arc function
+
+      // lets draw this without the p5.js arc function
+      // how do I add these arcs into the paths array?
+
+      arc(x1, y1, radius, radius, 0, PI);
+
+      // draw arc in context
 
       const p = createPath();
-      // p.arc(width / 2, height / 2, radius, radius, 0, PI);
+      // ctx.beginPath();
+      // arc(100, 75, 50, 0, 2 * PI);
+      // ctx.stroke();
+      // p.arc(width / 2 + x1, height / 2 + y1, radius, 0, PI);
 
-      // here - this is a different set of points to the above
-
-      p.arc(x + width / 2, y + height / 2, radius, radius, 0, PI);
       paths.push(p);
-
-      // instead of the arc object we want to use the points
     }
-    ``;
+
     noLoop();
+
     // Convert the paths into polylines so we can apply line-clipping
     // When converting, pass the 'units' to get a nice default curve resolution
     let lines = pathsToPolylines(paths, { units });
