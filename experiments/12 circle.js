@@ -202,12 +202,11 @@ function drawSquareLines(radius) {
 	
 	line(x1, y1 + i, x2, y2 + i)
 	
-	arc(x1, x2, radius, radius, PI * 2)
     // }
   }
 }
 
-let slider;
+
 canvasSketch(({ p5 }) => {
   // Inside this is a bit like p5.js 'setup' function
   gridTopX = width / 2;
@@ -219,7 +218,7 @@ canvasSketch(({ p5 }) => {
   // slider = createSlider(0, 10, 0, 0.01);
 
   // Return a renderer, which is like p5.js 'draw' function
-  return ({}) => {
+  return () => {
     // windowResized();k
     // background(252, 231, 230);
     // all we need to do is take the same set of noise values and apply them to ever decreasing circle size
@@ -237,10 +236,10 @@ canvasSketch(({ p5 }) => {
     let gridCoordinates = defineGrid(gridWidth, gridHeight, sideLength, gap);
 
     // console.log(gridCoordinates);
-    // for (let i = 0; i < gridCoordinates.length; i++) {
+    //for (let i = 0; i < gridCoordinates.length; i++) {
     //     drawCircle(gridCoordinates[i], circleSize, sideLength);
-    //   drawCircleWithArcs(gridCoordinates[i], circleSize, sideLength);
-    // }
+    //drawCircleWithArcs(gridCoordinates[i], circleSize, sideLength);
+    //}
 
     background(0);
     translate(width / 2, height / 2);
@@ -252,7 +251,15 @@ canvasSketch(({ p5 }) => {
     let radius = 100;
     smooth();
     strokeWeight(1);
-    drawSquareLines(radius);
+	
+	// overlay canvas here
+	
+    // drawSquareLines(radius);
+	// beginPath();
+	
+	p5.arc(0, 0, radius, radius, 0, PI * 2)
+	arc(50, 55, 50, 50, 0, HALF_PI);
+	line(100,100,200,200)
 	
 	
 	
